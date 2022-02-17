@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../dummy-data.dart';
+import '../meal.dart';
 import '../screens/category_meal_screen.dart';
 import '../screens/filter_screen.dart';
 import '../screens/meal_detail_screen.dart';
@@ -14,14 +16,35 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Map<String, bool> filters = {
+  Map<String, dynamic> _filters = {
     'gluten': false,
     'lactose': false,
     'vegan': false,
     'vegetables': false,
   };
 
-  void _setFilters(Map<String, bool> filterData) {}
+  void _setFilters(Map<String, bool> filterData) {
+    setState(() {
+      _filters = filterData;
+      availableMeals = DUMMY_MEALS.where((meal) {
+        if (_filters['gluten'] && !meal.isGlutenFree) {
+          return false;
+        }
+        if (_filters['lactose'] && !meal.isLactoseFree) {
+          return false;
+        }
+        if (_filters['vegan'] && !meal.isVegan) {
+          return false;
+        }
+        if (_filters['vegetables'] && !meal.isVegetarian) {
+          return false;
+        }
+        return true;
+      }).toList();
+    });
+  }
+
+  List<Meal> availableMeals = DUMMY_MEALS;
 
   @override
   Widget build(BuildContext context) {
@@ -48,12 +71,16 @@ class _MyAppState extends State<MyApp> {
       initialRoute: '/',
       routes: {
         '/': (context) => TabsScreen(),
-        FilterScreen.routeName: (context) => FilterScreen(),
-        CategoryMealScreen.routeName: (ctx) => CategoryMealScreen(),
+        FilterScreen.routeName: (context) => FilterScreen(
+              saveFilters: _setFilters,
+            ),
+        CategoryMealScreen.routeName: (ctx) =>
+            CategoryMealScreen(availableMeals),
         MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
       },
       onUnknownRoute: (settings) {
-        return MaterialPageRoute(builder: (context) => CategoryMealScreen());
+        return MaterialPageRoute(
+            builder: (context) => CategoryMealScreen(availableMeals));
       },
     );
   }

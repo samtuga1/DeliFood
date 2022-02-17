@@ -3,7 +3,9 @@ import 'package:flutter_complete_guide/main_drawer.dart';
 
 class FilterScreen extends StatefulWidget {
   static final String routeName = '/filter_screen';
-  const FilterScreen({Key? key}) : super(key: key);
+  const FilterScreen({Key? key, this.saveFilters}) : super(key: key);
+
+  final Function? saveFilters;
 
   @override
   State<FilterScreen> createState() => _FilterScreenState();
@@ -21,6 +23,12 @@ class _FilterScreenState extends State<FilterScreen> {
       drawer: MainDrawer(),
       appBar: AppBar(
         title: Text('Filters'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.save),
+            onPressed: () => widget.saveFilters,
+          ),
+        ],
       ),
       body: Column(
         children: [
