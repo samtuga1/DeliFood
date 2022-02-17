@@ -6,8 +6,22 @@ import '../screens/tab_screen.dart';
 
 void main() => runApp(const MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Map<String, bool> filters = {
+    'gluten': false,
+    'lactose': false,
+    'vegan': false,
+    'vegetables': false,
+  };
+
+  void _setFilters(Map<String, bool> filterData) {}
 
   @override
   Widget build(BuildContext context) {
