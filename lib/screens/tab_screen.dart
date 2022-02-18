@@ -6,23 +6,23 @@ import '../screens/favorites_screen.dart';
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({Key? key, required this.favoriteMeals}) : super(key: key);
-  final List<Meal>? favoriteMeals;
+  final List<Meal> favoriteMeals;
 
   @override
   State<TabsScreen> createState() => _TabsScreenState();
 }
 
 class _TabsScreenState extends State<TabsScreen> {
-  late List<Map<String, dynamic>> _pages = [
-    {'page': CategoriesScreen(), 'title': 'Categories'},
-    {
-      'page': FavoritesScreen(favoriteMeals: widget.favoriteMeals),
-      'title': 'Favorites'
-    }
-  ];
-
+  late List<Map<String, dynamic>> _pages;
   @override
   void initState() {
+    _pages = [
+      {'page': CategoriesScreen(), 'title': 'Categories'},
+      {
+        'page': FavoritesScreen(favoriteMeals: widget.favoriteMeals),
+        'title': 'Favorites'
+      }
+    ];
     super.initState();
   }
 

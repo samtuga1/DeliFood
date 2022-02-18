@@ -45,22 +45,22 @@ class _MyAppState extends State<MyApp> {
   }
 
   List<Meal> availableMeals = DUMMY_MEALS;
-  late List<Meal>? favoriteMeals;
+  List<Meal> favoriteMeals = [];
   void _toggleFavorites(String mealId) {
-    int existingIndex = favoriteMeals!.indexWhere((meal) => meal.id == mealId);
+    int existingIndex = favoriteMeals.indexWhere((meal) => meal.id == mealId);
     if (existingIndex >= 0) {
       setState(() {
-        favoriteMeals!.removeAt(existingIndex);
+        favoriteMeals.removeAt(existingIndex);
       });
-    } else if (existingIndex < 0) {
+    } else {
       setState(() {
-        favoriteMeals!.firstWhere((meal) => meal.id == mealId);
+        favoriteMeals.add(DUMMY_MEALS.firstWhere((meal) => meal.id == mealId));
       });
     }
   }
 
-  bool _isFavoriteMeal(id) {
-    return favoriteMeals!.any((meal) => meal.id == id);
+  bool _isFavoriteMeal(String id) {
+    return favoriteMeals.any((meal) => meal.id == id);
   }
 
   @override
