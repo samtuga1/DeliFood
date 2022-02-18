@@ -3,8 +3,9 @@ import '../dummy-data.dart';
 
 class MealDetailScreen extends StatelessWidget {
   static final String routeName = '/meal_detail_screen';
-  const MealDetailScreen({Key? key}) : super(key: key);
-
+  const MealDetailScreen(this.toggleFavorites, this.isFavorite);
+  final Function toggleFavorites;
+  final Function isFavorite;
   @override
   Widget build(BuildContext context) {
     final mealId = ModalRoute.of(context)!.settings.arguments as String;
@@ -34,10 +35,8 @@ class MealDetailScreen extends StatelessWidget {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pop(mealId);
-        },
-        child: Icon(Icons.delete),
+        onPressed: () => toggleFavorites,
+        child: Icon(isFavorite(mealId) ? Icons.star : Icons.star_border),
       ),
       appBar: AppBar(
         title: Text('${selectedMeal.title}'),
